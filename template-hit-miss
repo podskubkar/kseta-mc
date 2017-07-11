@@ -1,0 +1,88 @@
+#!/usr/bin/python
+
+# Import some useful libraries
+import matplotlib.pyplot as plt
+import numpy as np
+import math
+import random
+
+# REMEMBER: We work on interval x in [0,1]
+
+# Number of sampling points. Higher it is, the more precise the resut should be.
+# You can nchange it later.
+N_POINTS = 10
+
+# Empty lists of our hit/miss coordinates, just for the purpose of plotting
+x_in = []
+y_in = []
+x_out = []
+y_out = []
+
+############
+### TODO ###
+############
+# Get y coordinate of unit circle with centre in the origin. Highschool math...
+def circle(x):
+    return #?#
+
+############
+### TODO ###
+############
+# Check whether the random point with coordinates x in [0,1] and y in [0,1] is
+# located inside the circle. Try to do it really just as return expression.
+# HINT1: use function circle(x)
+# HINT2: this function should return true or false value
+def in_circle(point):
+    x, y = point
+    return #?#
+
+def make_plot():
+    t = np.arange(0., 1.0, 0.0001)
+    plt.plot(t, circle(t))
+    plt.scatter(x_in, y_in, color='red')
+    plt.scatter(x_out, y_out, color='blue')
+    plt.xlim(0.0, 1.01)
+    plt.ylim(0., 1.01)
+    plt.axes().set_aspect(1.0)
+    plt.show()
+    
+# The main() function, core of the sampling algorithm.
+def main():
+            
+    # This is is hit/miss sampling exercise, so lets define initial number of hits as 0
+    hits = 0.
+    
+    # So let's start sampling
+    for i in range(N_POINTS):
+        
+        # We generate random point [x,y] in 2D between 0 and 1
+        point = random.uniform(0,1), random.uniform(0,1)
+        
+        # This is really so simple that I don't even make you to fill it. If we
+        # hit the circle, we add one "hit" (and we bookeep the point)...
+        if in_circle(point):
+            hits+=1.
+            x_in.append(point[0])
+            y_in.append(point[1])
+            
+        #...and if we miss, we don't do anything except bookeeping the point :)     
+        else:
+            x_out.append(point[0])
+            y_out.append(point[1])
+
+    ############
+    ### TODO ###
+    ############
+    # So we have the number of hits but to get MC estimate of Pi, you have to apply some
+    # symmetry factor (remember we are working on [0,1] interval) and normalize it by some
+    # integer that we have already used before for other purpose.
+    mc_pi = #?#
+    
+    print 'MC_Pi = %.10f' % mc_pi
+    
+    # For comparison just Pi
+    print '___Pi = %.10f' % np.pi
+
+if __name__ == "__main__":
+    main()
+    make_plot()

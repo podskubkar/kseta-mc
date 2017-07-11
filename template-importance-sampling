@@ -1,0 +1,98 @@
+#!/usr/bin/python
+
+# Import some useful libraries
+import matplotlib.pyplot as plt
+import numpy as np
+import math
+import random
+
+# REMEMBER: We work on interval x in [0,1]
+
+# Let's define some global constants, normalization factors...
+
+# Number of sampling points. Higher it is, the more precise the resut should be.
+N_POINTS = 10
+
+# Just some definition to make our writing simpler, it is just what it is.
+EULER = np.exp(1)
+
+# Definition of function f(x) that we want to integrate using MC importance sampling.
+def f(x):
+  return 1.+(EULER-1)*x*x  
+
+############
+### TODO ###
+############
+# Definition of function g(x) (overestimator of f). It is also the probability
+# density function according to which we want to generate our random numbers.
+# Do you remember the requirements for g(x) ? Can you guess it? 
+def g(x):
+  return #?#
+
+############
+### TODO ###
+############
+# So this will be normalization factor N such as 1/N*integral[g(x)] = 1 where x in [0,1].
+# Just take pen and paper and calculate it.
+G_SCALING = #?#
+
+############
+### TODO ###
+############
+# Define the function which returns random numbers distributed according to normalized PDF
+# (so 1/N*g(x) not just g(x)). If you have listened about transverse inverse method, you know
+# that it will be CDF^-1
+def get_random(x):
+  return #?#
+
+# This is just some plotting crap, you don't need to add anything, it should work. Later
+# we use it just to show how f(x) and g(x) looks like.
+def make_plot():
+    t = np.arange(0., 1.0, 0.0001)
+    plt.plot(t, f(t), color='blue')    
+    plt.plot(t, g(t), color='red')
+    plt.xlim(0., 1.01)
+    plt.ylim(0., EULER+.01)
+    plt.show()
+
+# The main() function, core of the sampling algorithm.
+def main():
+    
+    # Here I just have put directly analytical result of integral of f(x) from 0 to 1.
+    # for later comparison to our MC estimate. Do't change it!
+    AI_of_g = (2.+EULER)/3.
+    
+    #This will be our MC estimate of integral of f(x) from 0 to 1, let's define it as 0 for now.
+    mc_of_g = 0.
+    
+    # Finally, these few lines are our MC sampling method
+    for i in range(N_POINTS):
+        
+        # Here we will generate random number u uniformly on [0,1].
+        u = random.uniform(0,1)
+        
+        # And this gives us r_g distributed according to our pdf g(x).
+        r = get_random(u)
+        
+        
+        ############
+        ### TODO ###
+        ############
+        # Now you have to add the weight to your MC estimate, what is it gonna be?
+        # It's really simple...
+        mc_of_g+= #?#
+    
+    ############
+    ### TODO ###
+    ############
+    # So far the MC estimate is just sum of weights, we have to do the last step
+    # to get some sensible value. Rescale it and normalise it, again it is very
+    # simple...
+    mc_of_g*= #?#
+    
+    print 'MC_G = %.10f' % mc_of_g
+    print 'AI_G = %.10f' % AI_of_g
+
+if __name__ == "__main__":
+    main()
+    make_plot()
